@@ -4,9 +4,10 @@
  *  Created on: 2017年3月22日
  *      Author: ipr
  */
+
 // Simple merge sort as review
 // Output: int as access order
-// Limitation: 17:30
+
 // TODO in-place merge
 
 #include <iostream>
@@ -15,44 +16,54 @@
 
 using namespace std;
 
+
+#define BUFF_SIZE  80
+
+
 void printArray(const int *a, int len)
 {
-	cout <<"[" <<endl;
+	cout <<"[";
 	for(int i = 0; i < len; i++){
-		cout <<a[i] <<", ";
+		cout <<a[i];
+		if(i == len-1){
+			cout <<"]" <<endl;
+		}
+		else{
+			cout <<", ";
+		}
 	}
-	cout <<"]" <<endl;
 }
 
 
-// lenA, lenB >= 1(this limitation maybe needless FIXME), lenA >= lenB
 void sortSub(int *a, int lenA, int *b, int lenB)
 {
 	int *buff = new int[lenA+lenB];
 	int i = 0, j = 0, k = 0;
 
-	while(i < lenB){
-		if(a[i] <= b[i]){
-			buff[k++] = a[i]; // First place a
-			buff[k++] = b[i];
+	while(i < lenA && j < lenB){
+		if(a[i] <= b[j]){
+			buff[k++] = a[i++];
 		}
-		else{ // b > a
-			buff[k++] = b[i]; // First place b
-			buff[k++] = a[i];
+		else{
+			buff[k++] = b[j++];
 		}
+	}
+
+	// Handle rest of a/b, case A and B won't happen at the same time
+	while(i < lenA){ // case A: b's elements used up, part of a still undone
+		buff[k++] = a[i++];
+	}
+	while(j < lenB){ // case B: a's elements used up, part of b still undone
+		buff[k++] = b[j++];
+	}
+
+	i = 0;
+	while(i < k){
+		a[i] = buff[i];
 		++i;
 	}
 
-	// Now i == lenB
-	while(i < lenA){
-		buff[k++] = a[i++];
-	}
-
-	j = 0;
-	while(j < k){
-		a[j] = buff[j];
-		++j;
-	}
+	delete [] buff; // Not in-place
 }
 
 
@@ -71,14 +82,12 @@ void mergeSort(int *array, int len)
 		// Split
 		mergeSort(a, lenA);// First half of array
 		mergeSort(b, lenB);
-		// Sub-array sorted after two call of mergeSub
 
-		// Merge and sort whole array
+		// Sort and merge whole array
 		sortSub(a, lenA, b, lenB);
 	}
 }
 
-#define BUFF_SIZE  80
 int main()
 {
 	int buff[BUFF_SIZE];
