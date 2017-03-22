@@ -29,5 +29,6 @@
 *.app
 
 # Debugs
-Debug/
+Debug/*.*
+\.\/Debug/*.*
 Release/
