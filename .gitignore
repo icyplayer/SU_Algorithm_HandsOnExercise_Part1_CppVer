@@ -29,4 +29,5 @@
 *.app
 
 # Debugs
-./Debug/*.*
+Debug/
+Release/

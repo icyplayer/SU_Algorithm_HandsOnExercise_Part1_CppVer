@@ -11,11 +11,9 @@
 // TODO in-place merge
 
 #include <iostream>
-#include <cstdlib>
 #include <vector>
 
 using namespace std;
-
 
 #define BUFF_SIZE  80
 
@@ -57,10 +55,8 @@ void sortSub(int *a, int lenA, int *b, int lenB)
 		buff[k++] = b[j++];
 	}
 
-	i = 0;
-	while(i < k){
+	for(i = 0; i < k; i++){
 		a[i] = buff[i];
-		++i;
 	}
 
 	delete [] buff; // Not in-place
@@ -74,7 +70,7 @@ void mergeSort(int *array, int len)
 	}
 	else{
 		// Sort
-		int lenA = (len+1) / 2;
+		int lenA = (len+1)/2;
 		int lenB = len - lenA;// Maybe 0. lenA >= lenB
 		int *a = array;
 		int *b = &array[lenA];// lenA == 1 && lenB == 0 exception will not occurs.
@@ -99,7 +95,6 @@ int main()
 	int data;
 	while(cin >>data && idx < BUFF_SIZE){
 		buff[idx++] = data;
-
 	}
 
 	cout <<"input count: " <<idx <<endl;
@@ -111,7 +106,6 @@ int main()
 	cout <<"Output array: ";
 	printArray(buff, idx);
 
-//	delete [] buff;
 	return 0;
 }
 
